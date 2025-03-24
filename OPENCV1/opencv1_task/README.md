@@ -1,10 +1,10 @@
 ## OPENCV1_REPORT
 
 Code:
-#FINAL CODE
-#bounding box (purple + red) + text
+    #FINAL CODE
+    #bounding box (purple + red) + text
 
-import cv2
+    import cv2
 import numpy as np
 
 img = cv2.imread('fruit.jpg', cv2.IMREAD_COLOR)
@@ -43,21 +43,21 @@ result_r = cv2.bitwise_and(img, img, mask = dilation_r)
 mask = mask1 + mask2
 final_mask = dilation_r + dilation_p
 
-result = cv2.bitwise_and(img, img, mask = final_mask)
+    result = cv2.bitwise_and(img, img, mask = final_mask)
 
-#bounding box around red with text
-contours_r, _ = cv2.findContours(dilation_r, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    #bounding box around red with text
+    contours_r, _ = cv2.findContours(dilation_r, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-min_area = 10
-max_area = 2000
+    min_area = 10
+    max_area = 2000
 
-for cnt in contours_r:
+    for cnt in contours_r:
     area = cv2.contourArea(cnt)
 
-    if min_area < area < max_area:
-        x, y, w, h = cv2.boundingRect(cnt)
-        cv2.rectangle(img, (x, y), (x + w, y + h), (200, 0, 255), 2)
-        cv2.putText(img, "Red", (x, y-5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (200, 0, 255),2)
+        if min_area < area < max_area:
+            x, y, w, h = cv2.boundingRect(cnt)
+            cv2.rectangle(img, (x, y), (x + w, y + h), (200, 0, 255), 2)
+            cv2.putText(img, "Red", (x, y-5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (200, 0, 255),2)
 
 cv2.imshow('result', result)
 cv2.imshow('original', img)
