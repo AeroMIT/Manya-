@@ -71,6 +71,9 @@ Code:
 
  
 REPORT:
+ORIGINAL IMG: 
+![fruit](https://github.com/user-attachments/assets/ca54fcd4-a823-46f3-9f7d-b81c4ad5c280)
+
 Import cv2: OpenCV library used for image processing
 Import numpy as np: This library handles arrays
 img = cv2.imread('fruit.jpg', cv2.IMREAD_COLOR): reading the image
