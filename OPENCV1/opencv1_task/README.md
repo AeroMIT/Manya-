@@ -5,43 +5,43 @@ Code:
     #bounding box (purple + red) + text
 
     import cv2
-import numpy as np
+    import numpy as np
+    
+    img = cv2.imread('fruit.jpg', cv2.IMREAD_COLOR)
+    img = cv2.resize(img, (900,900))
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    
+    kernel = np.ones((2,2), np.uint8)
+    
+    #for purple
+    lower_purple = np.array([126, 150, 83])
+    upper_purple = np.array([137, 255, 255])
+    
+    mask1 = cv2.inRange(hsv, lower_purple, upper_purple)
 
-img = cv2.imread('fruit.jpg', cv2.IMREAD_COLOR)
-img = cv2.resize(img, (900,900))
-hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-
-kernel = np.ones((2,2), np.uint8)
-
-#for purple
-lower_purple = np.array([126, 150, 83])
-upper_purple = np.array([137, 255, 255])
-
-mask1 = cv2.inRange(hsv, lower_purple, upper_purple)
-
-erosion_p = cv2.erode(mask1, kernel, iterations = 1)
-dilation_p = cv2.dilate(erosion_p, kernel, iterations = 2)
-result_p = cv2.bitwise_and(img, img, mask = dilation_p)
-
-#bounding box for purple with text
-contours_p, _ = cv2.findContours(dilation_p, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-for cnt in contours_p:
-    x, y, w, h = cv2.boundingRect(cnt)
-    cv2.rectangle(img, (x-7, y-7), (x + w, y + h), (0, 255, 0), 2)
-    cv2.putText(img, "Purple", (x,y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2)
-
-
-#for red
-lower_red = np.array([0, 120, 70])
-upper_red = np.array([10, 255, 255])
-
-mask2 = cv2.inRange(hsv, lower_red, upper_red)
-dilation_r = cv2.dilate(mask2, kernel, iterations = 2)
-result_r = cv2.bitwise_and(img, img, mask = dilation_r)
-
-mask = mask1 + mask2
-final_mask = dilation_r + dilation_p
+    erosion_p = cv2.erode(mask1, kernel, iterations = 1)
+    dilation_p = cv2.dilate(erosion_p, kernel, iterations = 2)
+    result_p = cv2.bitwise_and(img, img, mask = dilation_p)
+    
+    #bounding box for purple with text
+    contours_p, _ = cv2.findContours(dilation_p, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    
+    for cnt in contours_p:
+        x, y, w, h = cv2.boundingRect(cnt)
+        cv2.rectangle(img, (x-7, y-7), (x + w, y + h), (0, 255, 0), 2)
+        cv2.putText(img, "Purple", (x,y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2)
+    
+    
+    #for red
+    lower_red = np.array([0, 120, 70])
+    upper_red = np.array([10, 255, 255])
+    
+    mask2 = cv2.inRange(hsv, lower_red, upper_red)
+    dilation_r = cv2.dilate(mask2, kernel, iterations = 2)
+    result_r = cv2.bitwise_and(img, img, mask = dilation_r)
+    
+    mask = mask1 + mask2
+    final_mask = dilation_r + dilation_p
 
     result = cv2.bitwise_and(img, img, mask = final_mask)
 
@@ -59,15 +59,15 @@ final_mask = dilation_r + dilation_p
             cv2.rectangle(img, (x, y), (x + w, y + h), (200, 0, 255), 2)
             cv2.putText(img, "Red", (x, y-5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (200, 0, 255),2)
 
-cv2.imshow('result', result)
-cv2.imshow('original', img)
-#cv2.imshow('final mask', final_mask)
-#cv2.imshow('result_p', result_p)
-#cv2.imshow('result_r', result_r)
+    cv2.imshow('result', result)
+    cv2.imshow('original', img)
+    #cv2.imshow('final mask', final_mask)
+    #cv2.imshow('result_p', result_p)
+    #cv2.imshow('result_r', result_r)
 
 
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
  
 REPORT:
@@ -163,10 +163,4 @@ x, y, w, h = cv2.boundingRect(cnt): Creates a rectangle around the detected obje
  
 
 FINAL IMAGE:
- 
-
-
-
-
-
-
+![Screenshot 2025-03-22 200111](https://github.com/user-attachments/assets/95a976f7-1280-47bc-ad1f-ab26484b890c)
